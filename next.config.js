@@ -3,6 +3,7 @@ const nextConfig = {
   images: {
     domains: ["avatars.githubusercontent.com", "github.com"],
   },
+  transpilePackages: ['@blocksuite/blocks', '@blocksuite/presets', '@blocksuite/store'],
   async headers() {
     return [
       {

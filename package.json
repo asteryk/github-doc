@@ -9,6 +9,10 @@
     "start": "next start"
   },
   "dependencies": {
+    "@blocksuite/blocks": "0.15.0-canary-202406291027-8aed732",
+    "@blocksuite/presets": "0.15.0-canary-202406291027-8aed732",
+    "@blocksuite/store": "0.15.0-canary-202406291027-8aed732",
+    "@blocksuite/sync": "0.15.0-canary-202406291027-8aed732",
     "@octokit/rest": "^20.0.0",
     "autoprefixer": "^10.4.0",
     "better-sqlite3": "^9.0.0",

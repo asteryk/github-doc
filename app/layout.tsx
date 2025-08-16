@@ -9,7 +9,11 @@ export const metadata: Metadata = {
   description: "简单的GitHub文档编辑器，支持手动同步",
   keywords: ["GitHub", "文档编辑", "Markdown", "同步"],
   authors: [{ name: "GitHub Doc Editor" }],
-  viewport: "width=device-width, initial-scale=1",
+};
+
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
 };
 
 export default function RootLayout({
