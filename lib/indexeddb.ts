@@ -97,23 +97,23 @@ class IndexedDBManager {
       const index = store.index("path");
       const getRequest = index.get(doc.path);
 
-      getRequest.onsuccess = () => {
-        const existingDoc = getRequest.result;
-        const docToSave = {
-          ...doc,
-          last_modified: new Date().toISOString(),
-          created_at: existingDoc?.created_at || new Date().toISOString(),
+              getRequest.onsuccess = () => {
+          const existingDoc = getRequest.result;
+          const docToSave: DocumentRecord = {
+            ...doc,
+            last_modified: new Date().toISOString(),
+            created_at: existingDoc?.created_at || new Date().toISOString(),
+          };
+
+          if (existingDoc) {
+            // 更新现有文档
+            docToSave.id = existingDoc.id;
+          }
+
+          const saveRequest = store.put(docToSave);
+          saveRequest.onsuccess = () => resolve();
+          saveRequest.onerror = () => reject(new Error("保存文档失败"));
         };
-
-        if (existingDoc) {
-          // 更新现有文档
-          docToSave.id = existingDoc.id;
-        }
-
-        const saveRequest = store.put(docToSave);
-        saveRequest.onsuccess = () => resolve();
-        saveRequest.onerror = () => reject(new Error("保存文档失败"));
-      };
 
       getRequest.onerror = () => reject(new Error("检查文档失败"));
     });
