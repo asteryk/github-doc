@@ -4,10 +4,11 @@
 
 ## ✨ 功能特点
 
-- 🚀 **纯前端应用** - 无需后端服务器
+- 🚀 **纯前端应用** - 无需后端服务器，完美支持 Vercel 部署
+- 💾 **本地存储** - 使用 IndexedDB 在浏览器本地存储文档
 - 🔐 **GitHub 集成** - 直接使用 GitHub API 操作仓库
 - 📝 **Markdown 编辑** - 支持 .md 文件编辑
-- 💾 **手动同步** - 手动拉取和提交，完全控制
+- 🔄 **手动同步** - 手动拉取和提交，完全控制
 - 🎨 **简洁界面** - 专注于文档编辑功能
 - 📱 **响应式设计** - 支持各种设备
 
@@ -15,6 +16,7 @@
 
 - **前端框架**: Next.js 14 (App Router)
 - **样式**: Tailwind CSS
+- **数据存储**: IndexedDB (浏览器本地存储)
 - **GitHub API**: Octokit
 - **语言**: TypeScript
 - **状态管理**: React Hooks
@@ -90,10 +92,21 @@ npm run dev
 ```
 ├── app/
 │   ├── page.tsx          # 配置页面
+│   ├── config/           # 配置相关页面
+│   │   └── page.tsx      # 配置页面
 │   ├── editor/
 │   │   └── page.tsx      # 编辑器页面
+│   ├── components/       # 组件目录
+│   │   ├── ConfirmDialog.tsx    # 确认对话框
+│   │   └── InputDialog.tsx      # 输入对话框
+│   ├── api/              # API 路由 (兼容性)
+│   │   ├── config/       # 配置 API
+│   │   ├── documents/    # 文档 API
+│   │   └── github/       # GitHub API
 │   ├── globals.css       # 全局样式
 │   └── layout.tsx        # 根布局
+├── lib/
+│   └── indexeddb.ts      # IndexedDB 数据库操作
 ├── package.json          # 项目依赖
 ├── tailwind.config.js    # Tailwind 配置
 ├── postcss.config.js     # PostCSS 配置
@@ -105,10 +118,12 @@ npm run dev
 
 ### Vercel 部署 (推荐)
 
+本项目使用 IndexedDB 进行本地存储，**完美兼容 Vercel 部署**：
+
 1. 将代码推送到 GitHub
 2. 在 [Vercel](https://vercel.com) 导入项目
-3. 配置环境变量 (如需要)
-4. 自动部署完成
+3. 无需配置环境变量或数据库
+4. 自动部署完成！
 
 ### 自托管部署
 
@@ -120,12 +135,19 @@ npm run build
 npm start
 ```
 
+### 部署优势
+
+- ✅ **零配置部署** - 无需数据库服务器
+- ✅ **完美兼容 Serverless** - 支持 Vercel、Netlify 等
+- ✅ **离线可用** - 数据存储在浏览器本地
+- ✅ **快速启动** - 即开即用，无需配置
+
 ## 🔒 安全说明
 
-- GitHub Token 仅存储在浏览器本地存储中
-- 建议定期更新 Token
-- 不要将 Token 分享给他人
-- 可以设置 Token 的过期时间
+- **本地存储**: 所有数据(包括 GitHub Token)仅存储在浏览器 IndexedDB 中
+- **隐私保护**: 数据不会上传到任何服务器
+- **Token 安全**: 建议定期更新 Token，不要分享给他人
+- **数据备份**: 可通过浏览器开发者工具导出 IndexedDB 数据进行备份
 
 ## 🤝 贡献
 
@@ -152,3 +174,19 @@ A: 确保 Tailwind CSS 正确安装，检查浏览器控制台是否有错误。
 ### Q: 如何支持其他文件格式？
 
 A: 修改 `fetchFiles` 函数中的文件过滤条件即可。
+
+### Q: 数据存储在哪里？
+
+A: 所有数据存储在浏览器的 IndexedDB 中，包括文档内容和 GitHub 配置。数据仅在本地存储，不会上传到服务器。
+
+### Q: 如何备份我的数据？
+
+A: 可以通过浏览器开发者工具 → Application → Storage → IndexedDB → GitHubDocEditor 查看和导出数据。也可以通过 GitHub 同步功能将文档备份到远程仓库。
+
+### Q: 清除浏览器数据会丢失文档吗？
+
+A: 是的，清除浏览器数据会删除 IndexedDB 中的本地文档。建议定期同步到 GitHub 进行备份。
+
+### Q: 能在不同浏览器之间同步数据吗？
+
+A: IndexedDB 数据仅限单个浏览器。要在不同设备/浏览器间同步，请使用 GitHub 同步功能。

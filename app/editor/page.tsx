@@ -5,6 +5,12 @@ import toast, { Toaster } from "react-hot-toast";
 import { diffChars } from "diff";
 import ConfirmDialog from "../components/ConfirmDialog";
 import InputDialog from "../components/InputDialog";
+import {
+  documentDB,
+  configDB,
+  initDB,
+  type DocumentRecord,
+} from "@/lib/indexeddb";
 
 interface GitHubConfig {
   owner: string;
@@ -86,30 +92,18 @@ export default function Editor() {
     if (!selectedFile || !content) return;
 
     try {
-      const response = await fetch("/api/documents", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          path: selectedFile.path,
-          name: selectedFile.name,
-          content,
-          sha: selectedFile.sha,
-        }),
+      await documentDB.save({
+        path: selectedFile.path,
+        name: selectedFile.name,
+        content,
+        sha: selectedFile.sha,
       });
 
-      const data = await response.json();
+      toast.success("已保存到本地");
+      setHasUnsavedChanges(false);
 
-      if (data.success) {
-        toast.success("已保存到本地");
-        setHasUnsavedChanges(false);
-
-        // 更新本地文件列表
-        await loadLocalFiles();
-      } else {
-        toast.error("本地保存失败");
-      }
+      // 更新本地文件列表
+      await loadLocalFiles();
     } catch (error) {
       console.error("本地保存失败:", error);
       toast.error("本地保存失败");
@@ -119,33 +113,30 @@ export default function Editor() {
   // 加载本地文件
   const loadLocalFiles = async () => {
     try {
-      const response = await fetch("/api/documents");
-      const data = await response.json();
+      const documents = await documentDB.getAll();
 
-      if (data.success) {
-        const localFiles = data.documents.map((doc: any) => ({
-          name: doc.name,
-          path: doc.path,
-          sha: doc.sha,
-          content: doc.content,
-        }));
+      const localFiles = documents.map((doc) => ({
+        name: doc.name,
+        path: doc.path,
+        sha: doc.sha,
+        content: doc.content,
+      }));
 
-        // 按文件名字母顺序排序
-        const sortedFiles = localFiles.sort((a: FileInfo, b: FileInfo) =>
-          a.name.localeCompare(b.name)
+      // 按文件名字母顺序排序
+      const sortedFiles = localFiles.sort((a: FileInfo, b: FileInfo) =>
+        a.name.localeCompare(b.name)
+      );
+
+      setFiles(sortedFiles);
+
+      // 如果有选中的文件，更新其内容
+      if (selectedFile) {
+        const updatedFile = sortedFiles.find(
+          (f: FileInfo) => f.path === selectedFile.path
         );
-
-        setFiles(sortedFiles);
-
-        // 如果有选中的文件，更新其内容
-        if (selectedFile) {
-          const updatedFile = sortedFiles.find(
-            (f: FileInfo) => f.path === selectedFile.path
-          );
-          if (updatedFile) {
-            setSelectedFile(updatedFile);
-            setContent(updatedFile.content);
-          }
+        if (updatedFile) {
+          setSelectedFile(updatedFile);
+          setContent(updatedFile.content);
         }
       }
     } catch (error) {
@@ -159,20 +150,28 @@ export default function Editor() {
     toast.success("本地文件列表已刷新");
   };
 
-  // 自动加载配置和本地文件
+  // 自动初始化数据库并加载配置和本地文件
   useEffect(() => {
-    loadConfig();
-    loadLocalFiles();
+    const init = async () => {
+      try {
+        await initDB();
+        await loadConfig();
+        await loadLocalFiles();
+      } catch (error) {
+        console.error("初始化失败:", error);
+        toast.error("数据库初始化失败");
+      }
+    };
+    init();
   }, []);
 
   // 加载配置
   const loadConfig = async () => {
     try {
       setIsConfigLoading(true);
-      const response = await fetch("/api/config");
-      const data = await response.json();
+      const activeConfig = await configDB.getActive();
 
-      if (data.success && data.config) {
+      if (activeConfig) {
         // 检查是否已经有配置了，避免重复加载
         if (config) {
           console.log("配置已存在，跳过加载");
@@ -181,9 +180,9 @@ export default function Editor() {
         }
 
         // 检查配置是否完整
-        if (data.config.token) {
+        if (activeConfig.token) {
           // 配置完整，直接使用
-          setConfig(data.config);
+          setConfig(activeConfig);
           setIsConfigEmpty(false);
           toast.success("配置已自动加载");
         } else {
@@ -198,7 +197,7 @@ export default function Editor() {
               setInputDialog(null);
               if (token) {
                 const fullConfig: GitHubConfig = {
-                  ...data.config,
+                  ...activeConfig,
                   token,
                 };
                 setConfig(fullConfig);
@@ -298,17 +297,11 @@ export default function Editor() {
               setConfirmDialog(null);
               // 继续执行拉取逻辑
               try {
-                await fetch("/api/documents", {
-                  method: "POST",
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                  body: JSON.stringify({
-                    path: filePath,
-                    name: data.name,
-                    content: remoteContent,
-                    sha: data.sha,
-                  }),
+                await documentDB.save({
+                  path: filePath,
+                  name: data.name,
+                  content: remoteContent,
+                  sha: data.sha,
                 });
 
                 toast.success("文件拉取成功");
@@ -328,17 +321,11 @@ export default function Editor() {
 
         // 保存到本地数据库
         try {
-          await fetch("/api/documents", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              path: filePath,
-              name: data.name,
-              content: remoteContent,
-              sha: data.sha,
-            }),
+          await documentDB.save({
+            path: filePath,
+            name: data.name,
+            content: remoteContent,
+            sha: data.sha,
           });
 
           toast.success("文件拉取成功");
@@ -582,35 +569,23 @@ export default function Editor() {
 
         try {
           // 自动保存到本地数据库
-          const response = await fetch("/api/documents", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              path: filePath,
-              name: fileName,
-              content: "",
-              sha: "",
-            }),
+          await documentDB.save({
+            path: filePath,
+            name: fileName,
+            content: "",
+            sha: "",
           });
 
-          const data = await response.json();
+          // 保存成功后，更新本地状态
+          setFiles((prev) => [...prev, newFile]);
+          setSelectedFile(newFile);
+          setContent("");
+          setHasUnsavedChanges(false);
 
-          if (data.success) {
-            // 保存成功后，更新本地状态
-            setFiles((prev) => [...prev, newFile]);
-            setSelectedFile(newFile);
-            setContent("");
-            setHasUnsavedChanges(false);
+          // 刷新本地文件列表以保持排序
+          await loadLocalFiles();
 
-            // 刷新本地文件列表以保持排序
-            await loadLocalFiles();
-
-            toast.success(`文件 "${fileName}" 创建成功并已保存到本地`);
-          } else {
-            toast.error("创建文件失败");
-          }
+          toast.success(`文件 "${fileName}" 创建成功并已保存到本地`);
         } catch (error) {
           console.error("创建文件失败:", error);
           toast.error("创建文件失败");
@@ -622,64 +597,14 @@ export default function Editor() {
     });
   };
 
-  // 获取GitHub文件数量
-  const getGitHubFileCount = async (): Promise<number> => {
-    try {
-      const response = await fetch("/api/documents");
-      const data = await response.json();
-
-      if (data.success) {
-        return data.documents.filter((doc: any) => doc.source === "github")
-          .length;
-      }
-      return 0;
-    } catch (error) {
-      console.error("获取GitHub文件数量失败:", error);
-      return 0;
-    }
-  };
-
   // 获取本地文件数量
   const getLocalFileCount = async (): Promise<number> => {
     try {
-      const response = await fetch("/api/documents");
-      const data = await response.json();
-
-      if (data.success) {
-        return data.documents.length;
-      }
-      return 0;
+      const documents = await documentDB.getAll();
+      return documents.length;
     } catch (error) {
       console.error("获取本地文件数量失败:", error);
       return 0;
-    }
-  };
-
-  // 解决冲突
-  const resolveConflict = async (localPath: string) => {
-    try {
-      const response = await fetch("/api/documents", {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          action: "resolveConflict",
-          localPath,
-        }),
-      });
-
-      const data = await response.json();
-
-      if (data.success) {
-        toast.success("冲突已解决");
-        await loadLocalFiles();
-      } else {
-        toast.error("解决冲突失败");
-      }
-    } catch (error) {
-      console.error("解决冲突失败:", error);
-      toast.error("解决冲突失败");
     }
   };
 
@@ -704,23 +629,15 @@ export default function Editor() {
       }
 
       // 保存新文件
-      await fetch("/api/documents", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          path: newPath,
-          name: newName,
-          content: oldFile.content,
-          sha: oldFile.sha,
-        }),
+      await documentDB.save({
+        path: newPath,
+        name: newName,
+        content: oldFile.content,
+        sha: oldFile.sha,
       });
 
       // 删除旧文件
-      await fetch(`/api/documents?path=${encodeURIComponent(oldPath)}`, {
-        method: "DELETE",
-      });
+      await documentDB.delete(oldPath);
 
       // 如果当前选中的是重命名的文件，更新选中状态
       if (selectedFile?.path === oldPath) {
@@ -844,9 +761,7 @@ export default function Editor() {
       }
 
       // 删除本地文件
-      await fetch(`/api/documents?path=${encodeURIComponent(filePath)}`, {
-        method: "DELETE",
-      });
+      await documentDB.delete(filePath);
 
       // 如果删除的是当前选中的文件，清空选择
       if (selectedFile?.path === filePath) {

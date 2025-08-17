@@ -1,67 +1,28 @@
 import { NextRequest, NextResponse } from "next/server";
-import { configDB, ConfigRecord } from "@/lib/database";
+
+// 由于 IndexedDB 是客户端技术，配置 API 路由主要用于兼容性
+// 实际配置操作将在客户端完成
 
 export async function GET() {
-  try {
-    const config = configDB.getActive();
-    if (config) {
-      // 在开发环境下返回完整配置，生产环境需要更安全的处理
-      const isDev = process.env.NODE_ENV === 'development';
-      
-      if (isDev) {
-        // 开发环境返回完整配置
-        return NextResponse.json({ success: true, config });
-      } else {
-        // 生产环境不返回敏感信息
-        const { token, ...safeConfig } = config;
-        return NextResponse.json({ success: true, config: safeConfig });
-      }
-    }
-    return NextResponse.json({
+  // IndexedDB 操作需要在客户端进行
+  return NextResponse.json(
+    {
       success: false,
-      message: "No active config found",
-    });
-  } catch (error) {
-    console.error("获取配置失败:", error);
-    return NextResponse.json(
-      { success: false, message: "Failed to get config" },
-      { status: 500 }
-    );
-  }
+      message: "请使用客户端 IndexedDB 操作",
+      note: "配置已迁移到客户端 IndexedDB，请直接在前端调用 configDB 相关函数",
+    },
+    { status: 501 }
+  );
 }
 
 export async function POST(request: NextRequest) {
-  try {
-    const body = await request.json();
-    const { owner, repo, token, path } = body;
-
-    if (!owner || !repo || !token || !path) {
-      return NextResponse.json(
-        { success: false, message: "Missing required fields" },
-        { status: 400 }
-      );
-    }
-
-    const config: ConfigRecord = {
-      owner,
-      repo,
-      token,
-      path,
-      is_active: true,
-    };
-
-    configDB.save(config);
-
-    return NextResponse.json({
-      success: true,
-      message: "Config saved successfully",
-      config: { owner, repo, path }, // 不返回token
-    });
-  } catch (error) {
-    console.error("保存配置失败:", error);
-    return NextResponse.json(
-      { success: false, message: "Failed to save config" },
-      { status: 500 }
-    );
-  }
+  // IndexedDB 操作需要在客户端进行
+  return NextResponse.json(
+    {
+      success: false,
+      message: "请使用客户端 IndexedDB 操作",
+      note: "配置已迁移到客户端 IndexedDB，请直接在前端调用 configDB 相关函数",
+    },
+    { status: 501 }
+  );
 }

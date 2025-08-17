@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import toast, { Toaster } from "react-hot-toast";
+import { configDB, initDB } from "@/lib/indexeddb";
 
 export default function ConfigPage() {
   const [config, setConfig] = useState({
@@ -13,22 +14,30 @@ export default function ConfigPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [isConfigLoaded, setIsConfigLoaded] = useState(false);
 
-  // 自动加载配置
+  // 自动初始化数据库并加载配置
   useEffect(() => {
-    loadConfig();
+    const init = async () => {
+      try {
+        await initDB();
+        await loadConfig();
+      } catch (error) {
+        console.error("初始化失败:", error);
+        toast.error("数据库初始化失败");
+      }
+    };
+    init();
   }, []);
 
   const loadConfig = async () => {
     try {
-      const response = await fetch("/api/config");
-      const data = await response.json();
+      const activeConfig = await configDB.getActive();
 
-      if (data.success && data.config) {
+      if (activeConfig) {
         // 如果配置完整（包含token），则标记为已加载
-        if (data.config.token) {
+        if (activeConfig.token) {
           setConfig({
             ...config,
-            ...data.config,
+            ...activeConfig,
           });
           setIsConfigLoaded(true);
           toast.success("配置已自动加载");
@@ -36,7 +45,7 @@ export default function ConfigPage() {
           // 如果配置不完整，只显示基本信息
           setConfig({
             ...config,
-            ...data.config,
+            ...activeConfig,
             token: "", // 不显示token
           });
           // 不标记为已加载，因为缺少token
@@ -56,23 +65,16 @@ export default function ConfigPage() {
     setIsLoading(true);
 
     try {
-      const response = await fetch("/api/config", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(config),
+      await configDB.save({
+        owner: config.owner,
+        repo: config.repo,
+        token: config.token,
+        path: config.path,
+        is_active: true,
       });
 
-      const data = await response.json();
-
-      if (data.success) {
-        toast.success("配置已保存到数据库！");
-        // 不要重复设置 isConfigLoaded，因为配置已经完整了
-        // setIsConfigLoaded(true);
-      } else {
-        toast.error(data.message || "保存失败");
-      }
+      toast.success("配置已保存到数据库！");
+      setIsConfigLoaded(true);
     } catch (error) {
       toast.error("保存配置失败");
       console.error("保存配置失败:", error);
