@@ -150,14 +150,14 @@ export default function Editor() {
         sha: selectedFile.sha,
       });
 
-      toast.success("已保存到本地");
+      toast.success(t('messages.saveLocalSuccess'));
       setHasUnsavedChanges(false);
 
       // 更新本地文件列表
       await loadLocalFiles();
     } catch (error) {
-      console.error("本地保存失败:", error);
-      toast.error("本地保存失败");
+      console.error(t('errors.savedLocalFailed'), error);
+      toast.error(t('errors.savedLocalFailed'));
     }
   }, [selectedFile, content]);
 
@@ -191,14 +191,14 @@ export default function Editor() {
         }
       }
     } catch (error) {
-      console.error("加载本地文件失败:", error);
+      console.error(t('errors.loadLocalFilesFailed'), error);
     }
   };
 
   // 刷新本地文件列表（不拉取远端）
   const refreshLocalFiles = async () => {
     await loadLocalFiles();
-    toast.success("本地文件列表已刷新");
+    toast.success(t('toast.refreshed'));
   };
 
   // 自动初始化数据库并加载配置和本地文件
@@ -209,8 +209,8 @@ export default function Editor() {
         await loadConfig();
         await loadLocalFiles();
       } catch (error) {
-        console.error("初始化失败:", error);
-        toast.error("数据库初始化失败");
+        console.error(t('config.initFailed'), error);
+        toast.error(t('config.dbInitFailed'));
       }
     };
     init();
@@ -225,7 +225,7 @@ export default function Editor() {
       if (activeConfig) {
         // 检查是否已经有配置了，避免重复加载
         if (config) {
-          console.log("配置已存在，跳过加载");
+          console.log(t('messages.configExists'));
           setIsConfigLoading(false);
           return;
         }
@@ -235,14 +235,14 @@ export default function Editor() {
           // 配置完整，直接使用
           setConfig(activeConfig);
           setIsConfigEmpty(false);
-          toast.success("配置已自动加载");
+          toast.success(t('messages.configAutoLoaded'));
         } else {
           // 缺少token，需要用户输入
           setInputDialog({
             isOpen: true,
-            title: "输入GitHub Token",
-            message: "请输入GitHub Token以完成配置",
-            placeholder: "ghp_xxxxxxxxxxxxxxxxxxxx",
+            title: t('prompts.enterGithubToken'),
+            message: t('prompts.enterTokenMessage'),
+            placeholder: t('config.tokenPlaceholder'),
             defaultValue: "",
             onConfirm: (token: string) => {
               setInputDialog(null);
@@ -253,7 +253,7 @@ export default function Editor() {
                 };
                 setConfig(fullConfig);
                 setIsConfigEmpty(false);
-                toast.success("配置已加载");
+                toast.success(t('messages.configLoaded'));
               }
             },
             onCancel: () => {
@@ -267,7 +267,7 @@ export default function Editor() {
         setIsConfigEmpty(true);
       }
     } catch (error) {
-      console.error("加载配置失败:", error);
+      console.error(t('errors.loadConfigFailed'), error);
       setIsConfigEmpty(true);
     } finally {
       setIsConfigLoading(false);
@@ -311,7 +311,7 @@ export default function Editor() {
       setIsLoading(true);
       setError("");
 
-      console.log("正在拉取文件:", filePath);
+      console.log(t('actions.pulling', { path: filePath }));
 
       const params = new URLSearchParams({
         owner: config.owner,
@@ -341,15 +341,10 @@ export default function Editor() {
 
           setConfirmDialog({
             isOpen: true,
-            title: "发现文件内容差异",
-            message: `发现本地文件 "${
-              localFile.name
-            }" 与远端内容不同，是否要拉取远端版本？\n\n差异预览：\n${diffText.substring(
-              0,
-              500
-            )}${
-              diffText.length > 500 ? "..." : ""
-            }\n\n选择"确定"将覆盖本地文件，选择"取消"将保持本地版本。`,
+            title: t('prompts.contentDiffDetected'),
+            message: t('prompts.contentDiffMessage', {
+              diff: `${diffText.substring(0, 500)}${diffText.length > 500 ? "..." : ""}`
+            }),
             type: "warning",
             onConfirm: async () => {
               setConfirmDialog(null);
@@ -362,16 +357,16 @@ export default function Editor() {
                   sha: data.sha,
                 });
 
-                toast.success("文件拉取成功");
+                toast.success(t('messages.filePullSuccess'));
                 await loadLocalFiles();
               } catch (error) {
-                console.error("保存到本地失败:", error);
-                toast.error("保存到本地失败");
+                console.error(t('errors.saveLocalFailed'), error);
+                toast.error(t('errors.saveLocalFailed'));
               }
             },
             onCancel: () => {
               setConfirmDialog(null);
-              toast.success("已取消拉取，保持本地版本");
+              toast.success(t('messages.cancelPull'));
             },
           });
           return;
@@ -386,16 +381,16 @@ export default function Editor() {
             sha: data.sha,
           });
 
-          toast.success("文件拉取成功");
+          toast.success(t('messages.filePullSuccess'));
           await loadLocalFiles();
         } catch (error) {
-          console.error("保存到本地失败:", error);
-          toast.error("保存到本地失败");
+          console.error(t('errors.saveLocalFailed'), error);
+          toast.error(t('errors.saveLocalFailed'));
         }
       }
     } catch (error: any) {
-      console.error("拉取文件失败:", error);
-      toast.error("拉取文件失败");
+      console.error(t('errors.pullFileFailed'), error);
+      toast.error(t('errors.pullFileFailed'));
     } finally {
       setIsLoading(false);
     }
@@ -409,7 +404,7 @@ export default function Editor() {
       setIsLoading(true);
       setError("");
 
-      console.log("正在获取远端文件列表...");
+      console.log(t('actions.gettingFileList'));
 
       const params = new URLSearchParams({
         owner: config.owner,
@@ -438,9 +433,9 @@ export default function Editor() {
 
           setInputDialog({
             isOpen: true,
-            title: "选择要拉取的文件",
+            title: t('prompts.selectFilesToPull'),
             message: `找到 ${fileItems.length} 个文件，请输入要拉取的文件名（多个文件用逗号分隔）：\n\n${fileList}`,
-            placeholder: "文件名1,文件名2,文件名3",
+            placeholder: t('prompts.fileListPlaceholder'),
             defaultValue: "",
             onConfirm: async (selectedFiles: string) => {
               setInputDialog(null);
@@ -465,12 +460,12 @@ export default function Editor() {
             },
           });
         } else {
-          toast.success("没有找到文件");
+          toast.success(t('messages.noFilesFound'));
         }
       }
     } catch (error: any) {
-      console.error("获取文件列表失败:", error);
-      toast.error("获取文件列表失败");
+      console.error(t('errors.getFileListFailed'), error);
+      toast.error(t('errors.getFileListFailed'));
     } finally {
       setIsLoading(false);
     }
@@ -486,7 +481,7 @@ export default function Editor() {
 
       // 先进行本地保存
       if (hasUnsavedChanges) {
-        console.log("提交前先进行本地保存...");
+        console.log(t('actions.savingBeforeCommit'));
         await saveToLocal();
       }
 
@@ -512,16 +507,11 @@ export default function Editor() {
 
             setConfirmDialog({
               isOpen: true,
-              title: "远端文件内容更多",
-              message: `远端文件 "${
-                selectedFile.name
-              }" 内容比本地更多，是否仍要提交本地版本？\n\n本地内容长度: ${
-                content.length
-              } 字符\n远端内容长度: ${
-                remoteContent.length
-              } 字符\n\n差异预览：\n${diffText.substring(0, 500)}${
-                diffText.length > 500 ? "..." : ""
-              }\n\n选择"确定"将覆盖远端文件，选择"取消"将取消提交。`,
+              title: t('prompts.remoteContentDiff'),
+              message: t('prompts.remoteContentMessage', {
+                diff: (remoteContent.length - content.length),
+                changes: `${diffText.substring(0, 500)}${diffText.length > 500 ? "..." : ""}`
+              }),
               type: "warning",
               onConfirm: async () => {
                 setConfirmDialog(null);
@@ -530,7 +520,7 @@ export default function Editor() {
               },
               onCancel: () => {
                 setConfirmDialog(null);
-                toast.success("已取消提交");
+                toast.success(t('messages.cancelCommit'));
               },
             });
             return;
@@ -541,11 +531,11 @@ export default function Editor() {
       // 直接提交到GitHub
       await performGitHubPush(params);
     } catch (error: any) {
-      console.error("提交文件失败:", error);
+      console.error(t('errors.commitFileFailed'), error);
 
-      let errorMessage = "提交文件失败";
+      let errorMessage = t('errors.commitFileFailed');
       if (error.message.includes("Conflict")) {
-        errorMessage = "文件已被其他操作修改，请先拉取最新版本";
+        errorMessage = t('errors.fileModified');
       } else if (error.message) {
         errorMessage = error.message;
       }
@@ -562,7 +552,7 @@ export default function Editor() {
     if (!selectedFile) return;
 
     const contentBase64 = btoa(content);
-    console.log("正在提交文件:", selectedFile.path);
+    console.log(t('actions.committingFile', { path: selectedFile.path }));
 
     const response = await fetch(`/api/github?${params}`, {
       method: "PUT",
@@ -590,10 +580,10 @@ export default function Editor() {
       prev.map((f) => (f.path === selectedFile.path ? updatedFile : f))
     );
 
-    toast.success("文件提交成功！");
+    toast.success(t('messages.fileCommitSuccess'));
     setMessage("");
     setHasUnsavedChanges(false);
-    console.log("文件提交成功");
+    console.log(t('actions.fileCommitSuccess'));
   };
 
   // 创建新文档
@@ -602,9 +592,9 @@ export default function Editor() {
 
     setInputDialog({
       isOpen: true,
-      title: "创建新文档",
-      message: "请输入文件名",
-      placeholder: "例如: new-doc.md",
+      title: t('dialog.createNewFile'),
+      message: t('dialog.enterFileName'),
+      placeholder: t('config.pathPlaceholder').replace('docs/', 'new-doc.md'),
       defaultValue: "",
       onConfirm: async (fileName: string) => {
         setInputDialog(null);
@@ -613,7 +603,7 @@ export default function Editor() {
         const filePath = `${config.path}${fileName}`;
         const existingFile = files.find((f) => f.path === filePath);
         if (existingFile) {
-          toast.error(`文件名 "${fileName}" 已存在，请使用其他名称`);
+          toast.error(t('errors.fileNameExists', { name: fileName }));
           return;
         }
 
@@ -645,8 +635,8 @@ export default function Editor() {
 
           toast.success(`文件 "${fileName}" 创建成功并已保存到本地`);
         } catch (error) {
-          console.error("创建文件失败:", error);
-          toast.error("创建文件失败");
+          console.error(t('errors.createFileFailed'), error);
+          toast.error(t('errors.createFileFailed'));
         }
       },
       onCancel: () => {
@@ -661,7 +651,7 @@ export default function Editor() {
       const documents = await documentDB.getAll();
       return documents.length;
     } catch (error) {
-      console.error("获取本地文件数量失败:", error);
+      console.error(t('errors.getLocalFileCountFailed'), error);
       return 0;
     }
   };
@@ -703,11 +693,11 @@ export default function Editor() {
         setSelectedFile(newFile);
       }
 
-      toast.success("文件重命名成功");
+      toast.success(t('toast.fileRenamed'));
       await loadLocalFiles();
     } catch (error) {
-      console.error("重命名文件失败:", error);
-      toast.error("重命名文件失败");
+      console.error(t('toast.renameFailed'), error);
+      toast.error(t('toast.renameFailed'));
     }
   };
 
@@ -715,9 +705,9 @@ export default function Editor() {
   const handleRename = (file: FileInfo) => {
     setInputDialog({
       isOpen: true,
-      title: "重命名文件",
-      message: `请输入新的文件名`,
-      placeholder: "新文件名",
+      title: t('dialog.renameFile'),
+      message: t('dialog.enterNewName'),
+      placeholder: t('dialog.enterNewName'),
       defaultValue: file.name,
       onConfirm: (newName: string) => {
         setInputDialog(null);
@@ -744,7 +734,7 @@ export default function Editor() {
         // 获取要删除文件的SHA值
         const fileToDelete = files.find((f) => f.path === filePath);
         if (!fileToDelete || !fileToDelete.sha) {
-          toast.error("无法获取文件SHA值，请先拉取最新版本");
+          toast.error(t('errors.noFileSHA'));
           return;
         }
 
@@ -772,15 +762,15 @@ export default function Editor() {
 
           // 处理特定错误状态码
           if (response.status === 409) {
-            toast.error("远端文件已被修改，请先拉取最新版本再删除");
+            toast.error(t('errors.remoteFileModified'));
           } else if (response.status === 401) {
-            toast.error("认证失败，请检查GitHub Token是否有效");
+            toast.error(t('errors.authFailed'));
           } else if (response.status === 400) {
             // 400错误通常是参数问题，提供具体帮助
             if (errorMessage.includes("missing required field")) {
-              toast.error("缺少必需参数，请先拉取文件获取最新SHA值");
+              toast.error(t('errors.missingRequiredField'));
             } else {
-              toast.error("请求参数错误，请检查文件路径");
+              toast.error(t('errors.requestParameterError'));
             }
             return; // 400错误直接返回，不继续执行
           }
@@ -792,8 +782,11 @@ export default function Editor() {
 
             setConfirmDialog({
               isOpen: true,
-              title: "删除远端文件失败",
-              message: `删除远端文件失败 (${errorMessage})\n\n请手动删除远端文件：\n1. 访问: ${fileUrl}\n2. 点击删除按钮\n3. 提交删除操作\n\n删除完成后，点击"确定"继续删除本地文件，或点击"取消"取消操作。`,
+              title: t('prompts.deleteRemoteFileFailed'),
+              message: t('prompts.deleteRemoteFailedMessage', {
+                error: errorMessage,
+                url: fileUrl
+              }),
               type: "warning",
               onConfirm: () => {
                 setConfirmDialog(null);
@@ -802,7 +795,7 @@ export default function Editor() {
               },
               onCancel: () => {
                 setConfirmDialog(null);
-                toast.success("已取消删除操作");
+                toast.success(t('messages.cancelDelete'));
               },
             });
             return;
@@ -813,9 +806,9 @@ export default function Editor() {
           }
         }
 
-        toast.success("远端和本地文件都已删除");
+        toast.success(t('messages.bothFilesDeleted'));
       } else {
-        toast.success("本地文件已删除");
+        toast.success(t('messages.localFileDeleted'));
       }
 
       // 删除本地文件
@@ -830,8 +823,8 @@ export default function Editor() {
 
       await loadLocalFiles();
     } catch (error) {
-      console.error("删除文件失败:", error);
-      toast.error("删除文件失败");
+      console.error(t('toast.deleteFailed'), error);
+      toast.error(t('toast.deleteFailed'));
     }
   };
 
@@ -839,16 +832,16 @@ export default function Editor() {
   const handleDelete = (file: FileInfo) => {
     setConfirmDialog({
       isOpen: true,
-      title: "确认删除文件",
-      message: `确定要删除文件 "${file.name}" 吗？\n\n选择"确定"将删除本地文件\n选择"取消"将不执行任何操作`,
+      title: t('dialog.confirmDelete'),
+      message: t('dialog.deleteMessage', { name: file.name }) + '\n\n' + t('dialog.deleteLocalOnly'),
       type: "danger",
       onConfirm: () => {
         setConfirmDialog(null);
         // 询问是否删除远端文件
         setConfirmDialog({
           isOpen: true,
-          title: "删除远端文件",
-          message: `是否同时删除远端文件？\n\n选择"确定"将删除远端和本地文件\n选择"取消"将只删除本地文件`,
+          title: t('dialog.deleteRemote'),
+          message: t('dialog.deleteRemoteMessage'),
           type: "warning",
           onConfirm: () => {
             setConfirmDialog(null);
@@ -871,7 +864,7 @@ export default function Editor() {
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">正在加载配置...</p>
+          <p className="text-gray-600">{t('common.loading')}</p>
         </div>
       </div>
     );
@@ -881,9 +874,9 @@ export default function Editor() {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <p className="text-gray-600 mb-4">请先配置GitHub信息</p>
+          <p className="text-gray-600 mb-4">{t('common.pleaseConfigFirst')}</p>
           <a href="/config" className="text-blue-600 hover:underline">
-            返回配置页面
+            {t('common.goToConfig')}
           </a>
         </div>
       </div>
@@ -896,7 +889,7 @@ export default function Editor() {
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">配置加载中...</p>
+          <p className="text-gray-600">{t('common.configLoading')}</p>
         </div>
       </div>
     );
@@ -991,11 +984,11 @@ export default function Editor() {
         <div className="w-full lg:w-64 bg-white border-b lg:border-b-0 lg:border-r overflow-y-auto">
           <div className="p-3 sm:p-4">
             <h3 className="font-medium text-gray-900 mb-3 text-sm sm:text-base">
-              文档列表
+              {t('fileList.title')}
             </h3>
             {files.length === 0 ? (
               <p className="text-gray-500 text-xs sm:text-sm">
-                暂无文档，点击"拉取新文件"获取
+                {t('ui.emptyFileList')}
               </p>
             ) : (
               <div className="space-y-1">
@@ -1022,10 +1015,10 @@ export default function Editor() {
                               pullFile(file.path);
                             }}
                             className="px-1.5 sm:px-2 py-1 text-xs bg-green-100 text-green-700 rounded hover:bg-green-200"
-                            title="从GitHub拉取最新版本"
+                            title={t('ui.pullFromGithub')}
                           >
-                            <span className="hidden sm:inline">拉取</span>
-                            <span className="sm:hidden">↓</span>
+                            <span className="hidden sm:inline">{t('ui.pullShort')}</span>
+                            <span className="sm:hidden">{t('ui.pullIcon')}</span>
                           </button>
                           <button
                             onClick={(e) => {
@@ -1033,10 +1026,10 @@ export default function Editor() {
                               handleRename(file);
                             }}
                             className="px-1.5 sm:px-2 py-1 text-xs bg-blue-100 text-blue-700 rounded hover:bg-blue-200"
-                            title="重命名文件"
+                            title={t('ui.renameFile')}
                           >
-                            <span className="hidden sm:inline">重命名</span>
-                            <span className="sm:hidden">✏️</span>
+                            <span className="hidden sm:inline">{t('ui.renameShort')}</span>
+                            <span className="sm:hidden">{t('ui.renameIcon')}</span>
                           </button>
                           <button
                             onClick={(e) => {
@@ -1044,10 +1037,10 @@ export default function Editor() {
                               handleDelete(file);
                             }}
                             className="px-1.5 sm:px-2 py-1 text-xs bg-red-100 text-red-700 rounded hover:bg-red-200"
-                            title="删除文件"
+                            title={t('ui.deleteFile')}
                           >
-                            <span className="hidden sm:inline">删除</span>
-                            <span className="sm:hidden">🗑️</span>
+                            <span className="hidden sm:inline">{t('ui.deleteShort')}</span>
+                            <span className="sm:hidden">{t('ui.deleteIcon')}</span>
                           </button>
                         </div>
                       </div>
@@ -1074,7 +1067,7 @@ export default function Editor() {
                       type="text"
                       value={message}
                       onChange={(e) => setMessage(e.target.value)}
-                      placeholder="提交信息 (可选)"
+                      placeholder={t('editor.commitMessage')}
                       className="w-full sm:w-auto px-3 py-1 border border-gray-300 rounded-md text-xs sm:text-sm"
                     />
                     <button
@@ -1082,7 +1075,7 @@ export default function Editor() {
                       disabled={isLoading}
                       className="w-full sm:w-auto px-4 py-2 text-xs sm:text-sm bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50"
                     >
-                      {isLoading ? "保存中..." : "保存到GitHub"}
+                      {isLoading ? t('editor.saving') : t('editor.saveToGitHub')}
                     </button>
                   </div>
                 </div>
@@ -1106,7 +1099,7 @@ export default function Editor() {
                   <div className="flex-1 flex items-center justify-center">
                     <div className="text-center">
                       <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
-                      <p className="text-gray-500 text-sm">编辑器加载中...</p>
+                      <p className="text-gray-500 text-sm">{t('editor.loading')}</p>
                     </div>
                   </div>
                 )}
@@ -1115,12 +1108,12 @@ export default function Editor() {
           ) : (
             <div className="flex-1 flex items-center justify-center p-4">
               <div className="text-center text-gray-500">
-                <p className="text-sm sm:text-base">选择一个文档开始编辑</p>
+                <p className="text-sm sm:text-base">{t('editor.selectFile')}</p>
                 <p className="text-xs sm:text-sm mt-2">
-                  或点击"新建文档"创建新文件
+                  {t('editor.createNew')}
                 </p>
                 <p className="text-xs mt-2 text-gray-400">
-                  支持 Ctrl+S 本地保存
+                  {t('editor.shortcut')}
                 </p>
               </div>
             </div>
