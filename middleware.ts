@@ -5,7 +5,8 @@ import {locales} from './i18n';
 export default createMiddleware({
   locales,
   defaultLocale: 'en',
-  localePrefix: 'as-needed', // 或 'always'，按你习惯
+  localePrefix: 'always', // 确保所有路径都包含 locale 前缀
+  localeDetection: true // 启用自动语言检测
 });
 
 export const config = {

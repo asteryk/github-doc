@@ -29,14 +29,18 @@ export default async function LocaleLayout({
 }) {
   const { locale } = await params;
   
+  // 验证 locale 是否在支持的语言列表中
   if (!locales.includes(locale as any)) {
     notFound();
   }
-  console.log('locale: ', locale, locales.includes(locale as any));
+  
+  console.log('Layout locale: ', locale, 'is valid:', locales.includes(locale as any));
+  
   const messages = await getMessages({
-      locale
+    locale
   });
-  console.log('messages, locale: ', messages, locale)
+  
+  console.log('Messages loaded for locale:', locale, 'messages count:', Object.keys(messages || {}).length)
   return (
     <html lang={locale}>
       <body className={inter.className}>

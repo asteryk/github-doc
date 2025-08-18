@@ -3,6 +3,7 @@
 import { useLocale, useTranslations } from 'next-intl';
 import { useRouter, usePathname } from 'next/navigation';
 import { useState, useRef, useEffect } from 'react';
+import { locales } from '../../../i18n';
 
 const languages = [
   { code: 'en', name: 'English', flag: '🇺🇸' },
@@ -24,7 +25,7 @@ export default function LanguageSelector() {
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const currentLanguage = languages.find(lang => lang.code === locale) || languages[0];
-  console.log('currentLanguage: ', currentLanguage, 'locale: ', locale);
+  console.log('LanguageSelector - currentLanguage:', currentLanguage.name, 'locale:', locale);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -42,11 +43,21 @@ export default function LanguageSelector() {
   const handleLanguageChange = (langCode: string) => {
     setIsOpen(false);
     
+    if (langCode === locale) {
+      return; // 如果选择的是当前语言，则不做任何操作
+    }
+    
     // 将当前路径从 /[locale]/path 转换为 /[new-locale]/path
     const segments = pathname.split('/');
-    segments[1] = langCode;
+    if (segments[1] && locales.includes(segments[1] as any)) {
+      segments[1] = langCode;
+    } else {
+      // 如果当前路径没有 locale 前缀，则添加
+      segments.splice(1, 0, langCode);
+    }
     const newPath = segments.join('/');
     
+    console.log('Changing language from', locale, 'to', langCode, 'new path:', newPath);
     router.push(newPath);
   };
 
