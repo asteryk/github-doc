@@ -15,6 +15,7 @@ import { TableCell } from '@tiptap/extension-table-cell';
 import { common, createLowlight } from 'lowlight';
 import ConfirmDialog from "../components/ConfirmDialog";
 import InputDialog from "../components/InputDialog";
+import EditorToolbar from "../components/EditorToolbar";
 import {
   documentDB,
   configDB,
@@ -1086,14 +1087,17 @@ export default function Editor() {
               {/* 编辑器 */}
               <div className="flex-1 flex flex-col bg-white">
                 {editor ? (
-                  <div className="flex-1 overflow-y-auto">
-                    <div className="max-w-4xl mx-auto p-8">
-                      <EditorContent 
-                        editor={editor} 
-                        className="tiptap-editor min-h-[60vh] focus:outline-none"
-                      />
+                  <>
+                    <EditorToolbar editor={editor} />
+                    <div className="flex-1 overflow-y-auto">
+                      <div className="max-w-4xl mx-auto p-8">
+                        <EditorContent 
+                          editor={editor} 
+                          className="tiptap-editor min-h-[60vh] focus:outline-none"
+                        />
+                      </div>
                     </div>
-                  </div>
+                  </>
                 ) : (
                   <div className="flex-1 flex items-center justify-center">
                     <div className="text-center">
