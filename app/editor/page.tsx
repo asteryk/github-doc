@@ -3,6 +3,16 @@
 import { useState, useEffect, useCallback } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { diffChars } from "diff";
+import { useEditor, EditorContent } from '@tiptap/react';
+import StarterKit from '@tiptap/starter-kit';
+import Typography from '@tiptap/extension-typography';
+import Placeholder from '@tiptap/extension-placeholder';
+import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
+import { Table } from '@tiptap/extension-table';
+import { TableRow } from '@tiptap/extension-table-row';
+import { TableHeader } from '@tiptap/extension-table-header';
+import { TableCell } from '@tiptap/extension-table-cell';
+import { common, createLowlight } from 'lowlight';
 import ConfirmDialog from "../components/ConfirmDialog";
 import InputDialog from "../components/InputDialog";
 import {
@@ -86,6 +96,43 @@ export default function Editor() {
   const [inputDialog, setInputDialog] = useState<InputDialogState | null>(null);
   const [isConfigLoading, setIsConfigLoading] = useState(true);
   const [isConfigEmpty, setIsConfigEmpty] = useState(false);
+
+  // 创建lowlight实例
+  const lowlight = createLowlight(common);
+
+  // Tiptap 编辑器初始化
+  const editor = useEditor({
+    extensions: [
+      StarterKit.configure({
+        codeBlock: false, // 禁用默认的代码块，使用lowlight版本
+      }),
+      Typography,
+      Placeholder.configure({
+        placeholder: '输入 # 创建标题，输入 ``` 创建代码块，或直接开始输入markdown...',
+      }),
+      CodeBlockLowlight.configure({
+        lowlight,
+      }),
+      Table.configure({
+        resizable: true,
+      }),
+      TableRow,
+      TableHeader,
+      TableCell,
+    ],
+    content: content,
+    immediatelyRender: false,
+    editorProps: {
+      attributes: {
+        class: 'prose prose-sm sm:prose lg:prose-lg xl:prose-xl mx-auto focus:outline-none',
+      },
+    },
+    onUpdate: ({ editor }) => {
+      const html = editor.getHTML();
+      setContent(html);
+      // 内容变化会在 useEffect 中处理保存逻辑
+    },
+  });
 
   // 本地保存文档
   const saveToLocal = useCallback(async () => {
@@ -235,6 +282,13 @@ export default function Editor() {
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [saveToLocal]);
+
+  // 同步编辑器内容
+  useEffect(() => {
+    if (editor && selectedFile) {
+      editor.commands.setContent(selectedFile.content);
+    }
+  }, [editor, selectedFile]);
 
   // 内容变化检测
   useEffect(() => {
@@ -1030,13 +1084,24 @@ export default function Editor() {
               </div>
 
               {/* 编辑器 */}
-              <div className="flex-1 p-3 sm:p-6">
-                <textarea
-                  value={content}
-                  onChange={(e) => setContent(e.target.value)}
-                  placeholder="在这里编辑你的文档内容... (Ctrl+S 本地保存)"
-                  className="w-full h-full p-3 sm:p-4 border border-gray-300 rounded-md resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 font-mono text-xs sm:text-sm"
-                />
+              <div className="flex-1 flex flex-col bg-white">
+                {editor ? (
+                  <div className="flex-1 overflow-y-auto">
+                    <div className="max-w-4xl mx-auto p-8">
+                      <EditorContent 
+                        editor={editor} 
+                        className="tiptap-editor min-h-[60vh] focus:outline-none"
+                      />
+                    </div>
+                  </div>
+                ) : (
+                  <div className="flex-1 flex items-center justify-center">
+                    <div className="text-center">
+                      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
+                      <p className="text-gray-500 text-sm">编辑器加载中...</p>
+                    </div>
+                  </div>
+                )}
               </div>
             </>
           ) : (
