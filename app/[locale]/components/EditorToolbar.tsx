@@ -1,12 +1,15 @@
 "use client";
 
 import { Editor } from '@tiptap/react';
+import { useTranslations } from 'next-intl';
 
 interface EditorToolbarProps {
   editor: Editor | null;
 }
 
 const EditorToolbar = ({ editor }: EditorToolbarProps) => {
+  const t = useTranslations('toolbar');
+  
   if (!editor) {
     return null;
   }
@@ -60,28 +63,28 @@ const EditorToolbar = ({ editor }: EditorToolbarProps) => {
           <ToolbarButton
             onClick={() => editor.chain().focus().toggleBold().run()}
             isActive={editor.isActive('bold')}
-            title="粗体 (Ctrl+B)"
+            title={t('bold')}
           >
             <strong>B</strong>
           </ToolbarButton>
           <ToolbarButton
             onClick={() => editor.chain().focus().toggleItalic().run()}
             isActive={editor.isActive('italic')}
-            title="斜体 (Ctrl+I)"
+            title={t('italic')}
           >
             <em>I</em>
           </ToolbarButton>
           <ToolbarButton
             onClick={() => editor.chain().focus().toggleStrike().run()}
             isActive={editor.isActive('strike')}
-            title="删除线"
+            title={t('strikethrough')}
           >
             <span className="line-through">S</span>
           </ToolbarButton>
           <ToolbarButton
             onClick={() => editor.chain().focus().toggleCode().run()}
             isActive={editor.isActive('code')}
-            title="行内代码"
+            title={t('inlineCode')}
           >
             <code className="text-xs bg-gray-100 px-1 rounded">&lt;/&gt;</code>
           </ToolbarButton>
@@ -92,28 +95,28 @@ const EditorToolbar = ({ editor }: EditorToolbarProps) => {
           <ToolbarButton
             onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
             isActive={editor.isActive('heading', { level: 1 })}
-            title="标题 1"
+            title={t('heading1')}
           >
             H1
           </ToolbarButton>
           <ToolbarButton
             onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
             isActive={editor.isActive('heading', { level: 2 })}
-            title="标题 2"
+            title={t('heading2')}
           >
             H2
           </ToolbarButton>
           <ToolbarButton
             onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
             isActive={editor.isActive('heading', { level: 3 })}
-            title="标题 3"
+            title={t('heading3')}
           >
             H3
           </ToolbarButton>
           <ToolbarButton
             onClick={() => editor.chain().focus().setParagraph().run()}
             isActive={editor.isActive('paragraph')}
-            title="正文"
+            title={t('paragraph')}
           >
             P
           </ToolbarButton>
@@ -124,14 +127,14 @@ const EditorToolbar = ({ editor }: EditorToolbarProps) => {
           <ToolbarButton
             onClick={() => editor.chain().focus().toggleBulletList().run()}
             isActive={editor.isActive('bulletList')}
-            title="无序列表"
+            title={t('bulletList')}
           >
             • 列表
           </ToolbarButton>
           <ToolbarButton
             onClick={() => editor.chain().focus().toggleOrderedList().run()}
             isActive={editor.isActive('orderedList')}
-            title="有序列表"
+            title={t('orderedList')}
           >
             1. 列表
           </ToolbarButton>
@@ -142,14 +145,14 @@ const EditorToolbar = ({ editor }: EditorToolbarProps) => {
           <ToolbarButton
             onClick={() => editor.chain().focus().toggleBlockquote().run()}
             isActive={editor.isActive('blockquote')}
-            title="引用"
+            title={t('blockquote')}
           >
             "
           </ToolbarButton>
           <ToolbarButton
             onClick={() => editor.chain().focus().toggleCodeBlock().run()}
             isActive={editor.isActive('codeBlock')}
-            title="代码块"
+            title={t('codeBlock')}
           >
             <></>
           </ToolbarButton>
@@ -159,42 +162,42 @@ const EditorToolbar = ({ editor }: EditorToolbarProps) => {
         <ButtonGroup>
           <ToolbarButton
             onClick={() => editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()}
-            title="插入表格"
+            title={t('insertTable')}
           >
             表格
           </ToolbarButton>
           <ToolbarButton
             onClick={() => editor.chain().focus().addColumnBefore().run()}
             disabled={!editor.can().addColumnBefore()}
-            title="在前面添加列"
+            title={t('addColumnBefore')}
           >
             +列
           </ToolbarButton>
           <ToolbarButton
             onClick={() => editor.chain().focus().deleteColumn().run()}
             disabled={!editor.can().deleteColumn()}
-            title="删除列"
+            title={t('deleteColumn')}
           >
             -列
           </ToolbarButton>
           <ToolbarButton
             onClick={() => editor.chain().focus().addRowBefore().run()}
             disabled={!editor.can().addRowBefore()}
-            title="在上面添加行"
+            title={t('addRowBefore')}
           >
             +行
           </ToolbarButton>
           <ToolbarButton
             onClick={() => editor.chain().focus().deleteRow().run()}
             disabled={!editor.can().deleteRow()}
-            title="删除行"
+            title={t('deleteRow')}
           >
             -行
           </ToolbarButton>
           <ToolbarButton
             onClick={() => editor.chain().focus().deleteTable().run()}
             disabled={!editor.can().deleteTable()}
-            title="删除表格"
+            title={t('deleteTable')}
           >
             删表
           </ToolbarButton>
@@ -204,13 +207,13 @@ const EditorToolbar = ({ editor }: EditorToolbarProps) => {
         <ButtonGroup>
           <ToolbarButton
             onClick={() => editor.chain().focus().setHorizontalRule().run()}
-            title="分隔线"
+            title={t('horizontalRule')}
           >
             ---
           </ToolbarButton>
           <ToolbarButton
             onClick={() => editor.chain().focus().setHardBreak().run()}
-            title="强制换行"
+            title={t('hardBreak')}
           >
             ↵
           </ToolbarButton>
@@ -221,14 +224,14 @@ const EditorToolbar = ({ editor }: EditorToolbarProps) => {
           <ToolbarButton
             onClick={() => editor.chain().focus().undo().run()}
             disabled={!editor.can().undo()}
-            title="撤销 (Ctrl+Z)"
+            title={t('undo')}
           >
             ↶
           </ToolbarButton>
           <ToolbarButton
             onClick={() => editor.chain().focus().redo().run()}
             disabled={!editor.can().redo()}
-            title="重做 (Ctrl+Y)"
+            title={t('redo')}
           >
             ↷
           </ToolbarButton>

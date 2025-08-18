@@ -1,0 +1,86 @@
+{
+  "nav": {
+    "repository": "Repository",
+    "path": "Document path",
+    "unsaved": "⚠️ Unsaved changes",
+    "refreshList": "Refresh List",
+    "refreshing": "Refreshing...",
+    "localSave": "Local Save (Ctrl+S)",
+    "pullNewFiles": "Pull New Files",
+    "newDocument": "New Document",
+    "config": "Config"
+  },
+  "fileList": {
+    "title": "Document List",
+    "empty": "No documents, click \"Pull New Files\" to get",
+    "pull": "Pull",
+    "rename": "Rename",
+    "delete": "Delete"
+  },
+  "editor": {
+    "selectFile": "Select a document to start editing",
+    "createNew": "or click \"New Document\" to create a new file",
+    "shortcut": "Supports Ctrl+S for local save",
+    "commitMessage": "Commit message (optional)",
+    "saving": "Saving...",
+    "saveToGitHub": "Save to GitHub",
+    "loading": "Editor loading...",
+    "placeholder": "Type # to create heading, type ``` to create code block, or start typing markdown..."
+  },
+  "toolbar": {
+    "bold": "Bold (Ctrl+B)",
+    "italic": "Italic (Ctrl+I)",
+    "strikethrough": "Strikethrough",
+    "inlineCode": "Inline Code",
+    "heading1": "Heading 1",
+    "heading2": "Heading 2", 
+    "heading3": "Heading 3",
+    "paragraph": "Paragraph",
+    "bulletList": "Bullet List",
+    "orderedList": "Ordered List",
+    "blockquote": "Blockquote",
+    "codeBlock": "Code Block",
+    "insertTable": "Insert Table",
+    "addColumnBefore": "Add Column Before",
+    "deleteColumn": "Delete Column",
+    "addRowBefore": "Add Row Before", 
+    "deleteRow": "Delete Row",
+    "deleteTable": "Delete Table",
+    "horizontalRule": "Horizontal Rule",
+    "hardBreak": "Hard Break",
+    "undo": "Undo (Ctrl+Z)",
+    "redo": "Redo (Ctrl+Y)"
+  },
+  "dialog": {
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "createNewFile": "Create New Document",
+    "enterFileName": "Please enter file name",
+    "renameFile": "Rename File",
+    "enterNewName": "Please enter new file name",
+    "confirmDelete": "Confirm Delete File",
+    "deleteMessage": "Are you sure you want to delete file \"{name}\"?",
+    "deleteLocalOnly": "Select \"Confirm\" to delete local file\nSelect \"Cancel\" to perform no action",
+    "deleteRemote": "Delete Remote File",
+    "deleteRemoteMessage": "Also delete remote file?\n\nSelect \"Confirm\" to delete both remote and local files\nSelect \"Cancel\" to delete only local file"
+  },
+  "toast": {
+    "savedLocal": "Saved locally",
+    "localSaveFailed": "Local save failed",
+    "filePulled": "File pulled successfully",
+    "pullFailed": "File pull failed",
+    "fileCommitted": "File committed successfully!",
+    "commitFailed": "File commit failed",
+    "fileCreated": "File \"{name}\" created successfully and saved locally",
+    "createFailed": "File creation failed",
+    "fileRenamed": "File renamed successfully",
+    "renameFailed": "File rename failed",
+    "fileDeleted": "File deleted successfully",
+    "deleteFailed": "File deletion failed",
+    "configLoaded": "Configuration loaded automatically",
+    "refreshed": "Local file list refreshed"
+  },
+  "language": {
+    "select": "Select Language"
+  }
+}

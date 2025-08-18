@@ -1,0 +1,86 @@
+{
+  "nav": {
+    "repository": "リポジトリ",
+    "path": "ドキュメントパス",
+    "unsaved": "⚠️ 未保存の変更があります",
+    "refreshList": "リストを更新",
+    "refreshing": "読み込み中...",
+    "localSave": "ローカル保存 (Ctrl+S)",
+    "pullNewFiles": "新しいファイルを取得",
+    "newDocument": "新しいドキュメント",
+    "config": "設定"
+  },
+  "fileList": {
+    "title": "ドキュメントリスト",
+    "empty": "ドキュメントがありません。\"新しいファイルを取得\"をクリックしてください",
+    "pull": "取得",
+    "rename": "名前変更",
+    "delete": "削除"
+  },
+  "editor": {
+    "selectFile": "編集を開始するドキュメントを選択してください",
+    "createNew": "または\"新しいドキュメント\"をクリックして新しいファイルを作成",
+    "shortcut": "Ctrl+S でローカル保存をサポート",
+    "commitMessage": "コミットメッセージ (オプション)",
+    "saving": "保存中...",
+    "saveToGitHub": "GitHubに保存",
+    "loading": "エディター読み込み中...",
+    "placeholder": "# で見出し、``` でコードブロックを作成、またはmarkdownを直接入力してください..."
+  },
+  "toolbar": {
+    "bold": "太字 (Ctrl+B)",
+    "italic": "斜体 (Ctrl+I)",
+    "strikethrough": "取り消し線",
+    "inlineCode": "インラインコード",
+    "heading1": "見出し 1",
+    "heading2": "見出し 2",
+    "heading3": "見出し 3",
+    "paragraph": "段落",
+    "bulletList": "箇条書きリスト",
+    "orderedList": "番号付きリスト",
+    "blockquote": "引用",
+    "codeBlock": "コードブロック",
+    "insertTable": "表を挿入",
+    "addColumnBefore": "前に列を追加",
+    "deleteColumn": "列を削除",
+    "addRowBefore": "上に行を追加",
+    "deleteRow": "行を削除",
+    "deleteTable": "表を削除",
+    "horizontalRule": "水平線",
+    "hardBreak": "強制改行",
+    "undo": "元に戻す (Ctrl+Z)",
+    "redo": "やり直し (Ctrl+Y)"
+  },
+  "dialog": {
+    "confirm": "確認",
+    "cancel": "キャンセル",
+    "createNewFile": "新しいドキュメントを作成",
+    "enterFileName": "ファイル名を入力してください",
+    "renameFile": "ファイル名を変更",
+    "enterNewName": "新しいファイル名を入力してください",
+    "confirmDelete": "ファイルの削除を確認",
+    "deleteMessage": "ファイル \"{name}\" を削除してもよろしいですか？",
+    "deleteLocalOnly": "\"確認\"を選択するとローカルファイルが削除されます\n\"キャンセル\"を選択すると何も実行されません",
+    "deleteRemote": "リモートファイルを削除",
+    "deleteRemoteMessage": "リモートファイルも同時に削除しますか？\n\n\"確認\"を選択するとリモートとローカルの両方のファイルが削除されます\n\"キャンセル\"を選択するとローカルファイルのみが削除されます"
+  },
+  "toast": {
+    "savedLocal": "ローカルに保存しました",
+    "localSaveFailed": "ローカル保存に失敗しました",
+    "filePulled": "ファイルの取得に成功しました",
+    "pullFailed": "ファイルの取得に失敗しました",
+    "fileCommitted": "ファイルのコミットに成功しました！",
+    "commitFailed": "ファイルのコミットに失敗しました",
+    "fileCreated": "ファイル \"{name}\" が作成され、ローカルに保存されました",
+    "createFailed": "ファイルの作成に失敗しました",
+    "fileRenamed": "ファイルの名前変更に成功しました",
+    "renameFailed": "ファイルの名前変更に失敗しました",
+    "fileDeleted": "ファイルの削除に成功しました",
+    "deleteFailed": "ファイルの削除に失敗しました",
+    "configLoaded": "設定が自動的に読み込まれました",
+    "refreshed": "ローカルファイルリストが更新されました"
+  },
+  "language": {
+    "select": "言語を選択"
+  }
+}

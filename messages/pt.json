@@ -1,0 +1,86 @@
+{
+  "nav": {
+    "repository": "Repositório",
+    "path": "Caminho do documento",
+    "unsaved": "⚠️ Alterações não salvas",
+    "refreshList": "Atualizar lista",
+    "refreshing": "Carregando...",
+    "localSave": "Salvar localmente (Ctrl+S)",
+    "pullNewFiles": "Obter novos arquivos",
+    "newDocument": "Novo documento",
+    "config": "Configuração"
+  },
+  "fileList": {
+    "title": "Lista de documentos",
+    "empty": "Nenhum documento, clique em \"Obter novos arquivos\" para obtê-los",
+    "pull": "Obter",
+    "rename": "Renomear",
+    "delete": "Excluir"
+  },
+  "editor": {
+    "selectFile": "Selecione um documento para começar a editar",
+    "createNew": "ou clique em \"Novo documento\" para criar um novo arquivo",
+    "shortcut": "Suporta Ctrl+S para salvar localmente",
+    "commitMessage": "Mensagem de commit (opcional)",
+    "saving": "Salvando...",
+    "saveToGitHub": "Salvar no GitHub",
+    "loading": "Carregando editor...",
+    "placeholder": "Digite # para criar cabeçalho, ``` para criar bloco de código, ou comece a digitar markdown..."
+  },
+  "toolbar": {
+    "bold": "Negrito (Ctrl+B)",
+    "italic": "Itálico (Ctrl+I)",
+    "strikethrough": "Riscado",
+    "inlineCode": "Código inline",
+    "heading1": "Cabeçalho 1",
+    "heading2": "Cabeçalho 2",
+    "heading3": "Cabeçalho 3",
+    "paragraph": "Parágrafo",
+    "bulletList": "Lista com marcadores",
+    "orderedList": "Lista numerada",
+    "blockquote": "Citação",
+    "codeBlock": "Bloco de código",
+    "insertTable": "Inserir tabela",
+    "addColumnBefore": "Adicionar coluna antes",
+    "deleteColumn": "Excluir coluna",
+    "addRowBefore": "Adicionar linha acima",
+    "deleteRow": "Excluir linha",
+    "deleteTable": "Excluir tabela",
+    "horizontalRule": "Régua horizontal",
+    "hardBreak": "Quebra de linha forçada",
+    "undo": "Desfazer (Ctrl+Z)",
+    "redo": "Refazer (Ctrl+Y)"
+  },
+  "dialog": {
+    "confirm": "Confirmar",
+    "cancel": "Cancelar",
+    "createNewFile": "Criar novo documento",
+    "enterFileName": "Por favor, digite o nome do arquivo",
+    "renameFile": "Renomear arquivo",
+    "enterNewName": "Por favor, digite o novo nome do arquivo",
+    "confirmDelete": "Confirmar exclusão do arquivo",
+    "deleteMessage": "Tem certeza de que deseja excluir o arquivo \"{name}\"?",
+    "deleteLocalOnly": "Selecione \"Confirmar\" para excluir o arquivo local\nSelecione \"Cancelar\" para não realizar nenhuma ação",
+    "deleteRemote": "Excluir arquivo remoto",
+    "deleteRemoteMessage": "Também excluir o arquivo remoto?\n\nSelecione \"Confirmar\" para excluir tanto o arquivo remoto quanto o local\nSelecione \"Cancelar\" para excluir apenas o arquivo local"
+  },
+  "toast": {
+    "savedLocal": "Salvo localmente",
+    "localSaveFailed": "Falha ao salvar localmente",
+    "filePulled": "Arquivo obtido com sucesso",
+    "pullFailed": "Falha ao obter arquivo",
+    "fileCommitted": "Arquivo enviado com sucesso!",
+    "commitFailed": "Falha ao enviar arquivo",
+    "fileCreated": "Arquivo \"{name}\" criado com sucesso e salvo localmente",
+    "createFailed": "Falha ao criar arquivo",
+    "fileRenamed": "Arquivo renomeado com sucesso",
+    "renameFailed": "Falha ao renomear arquivo",
+    "fileDeleted": "Arquivo excluído com sucesso",
+    "deleteFailed": "Falha ao excluir arquivo",
+    "configLoaded": "Configuração carregada automaticamente",
+    "refreshed": "Lista de arquivos locais atualizada"
+  },
+  "language": {
+    "select": "Selecionar idioma"
+  }
+}

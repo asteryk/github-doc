@@ -1,0 +1,86 @@
+{
+  "nav": {
+    "repository": "Repositorio",
+    "path": "Ruta del documento",
+    "unsaved": "⚠️ Cambios sin guardar",
+    "refreshList": "Actualizar lista",
+    "refreshing": "Cargando...",
+    "localSave": "Guardar localmente (Ctrl+S)",
+    "pullNewFiles": "Obtener nuevos archivos",
+    "newDocument": "Nuevo documento",
+    "config": "Configuración"
+  },
+  "fileList": {
+    "title": "Lista de documentos",
+    "empty": "No hay documentos, haz clic en \"Obtener nuevos archivos\" para obtenerlos",
+    "pull": "Obtener",
+    "rename": "Renombrar",
+    "delete": "Eliminar"
+  },
+  "editor": {
+    "selectFile": "Selecciona un documento para comenzar a editar",
+    "createNew": "o haz clic en \"Nuevo documento\" para crear un nuevo archivo",
+    "shortcut": "Soporta Ctrl+S para guardar localmente",
+    "commitMessage": "Mensaje de commit (opcional)",
+    "saving": "Guardando...",
+    "saveToGitHub": "Guardar en GitHub",
+    "loading": "Cargando editor...",
+    "placeholder": "Escribe # para crear encabezado, ``` para crear bloque de código, o comienza a escribir markdown..."
+  },
+  "toolbar": {
+    "bold": "Negrita (Ctrl+B)",
+    "italic": "Cursiva (Ctrl+I)",
+    "strikethrough": "Tachado",
+    "inlineCode": "Código en línea",
+    "heading1": "Encabezado 1",
+    "heading2": "Encabezado 2",
+    "heading3": "Encabezado 3",
+    "paragraph": "Párrafo",
+    "bulletList": "Lista con viñetas",
+    "orderedList": "Lista numerada",
+    "blockquote": "Cita",
+    "codeBlock": "Bloque de código",
+    "insertTable": "Insertar tabla",
+    "addColumnBefore": "Agregar columna antes",
+    "deleteColumn": "Eliminar columna",
+    "addRowBefore": "Agregar fila arriba",
+    "deleteRow": "Eliminar fila",
+    "deleteTable": "Eliminar tabla",
+    "horizontalRule": "Regla horizontal",
+    "hardBreak": "Salto de línea forzado",
+    "undo": "Deshacer (Ctrl+Z)",
+    "redo": "Rehacer (Ctrl+Y)"
+  },
+  "dialog": {
+    "confirm": "Confirmar",
+    "cancel": "Cancelar",
+    "createNewFile": "Crear nuevo documento",
+    "enterFileName": "Por favor ingresa el nombre del archivo",
+    "renameFile": "Renombrar archivo",
+    "enterNewName": "Por favor ingresa el nuevo nombre del archivo",
+    "confirmDelete": "Confirmar eliminación de archivo",
+    "deleteMessage": "¿Estás seguro de que quieres eliminar el archivo \"{name}\"?",
+    "deleteLocalOnly": "Selecciona \"Confirmar\" para eliminar el archivo local\nSelecciona \"Cancelar\" para no realizar ninguna acción",
+    "deleteRemote": "Eliminar archivo remoto",
+    "deleteRemoteMessage": "¿También eliminar el archivo remoto?\n\nSelecciona \"Confirmar\" para eliminar tanto el archivo remoto como el local\nSelecciona \"Cancelar\" para eliminar solo el archivo local"
+  },
+  "toast": {
+    "savedLocal": "Guardado localmente",
+    "localSaveFailed": "Error al guardar localmente",
+    "filePulled": "Archivo obtenido exitosamente",
+    "pullFailed": "Error al obtener archivo",
+    "fileCommitted": "¡Archivo enviado exitosamente!",
+    "commitFailed": "Error al enviar archivo",
+    "fileCreated": "Archivo \"{name}\" creado exitosamente y guardado localmente",
+    "createFailed": "Error al crear archivo",
+    "fileRenamed": "Archivo renombrado exitosamente",
+    "renameFailed": "Error al renombrar archivo",
+    "fileDeleted": "Archivo eliminado exitosamente",
+    "deleteFailed": "Error al eliminar archivo",
+    "configLoaded": "Configuración cargada automáticamente",
+    "refreshed": "Lista de archivos locales actualizada"
+  },
+  "language": {
+    "select": "Seleccionar idioma"
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "nav": {
+    "repository": "仓库",
+    "path": "文档路径",
+    "unsaved": "⚠️ 有未保存的更改",
+    "refreshList": "刷新列表",
+    "refreshing": "加载中...",
+    "localSave": "本地保存 (Ctrl+S)",
+    "pullNewFiles": "拉取新文件",
+    "newDocument": "新建文档",
+    "config": "配置"
+  },
+  "fileList": {
+    "title": "文档列表",
+    "empty": "暂无文档，点击\"拉取新文件\"获取",
+    "pull": "拉取",
+    "rename": "重命名",
+    "delete": "删除"
+  },
+  "editor": {
+    "selectFile": "选择一个文档开始编辑",
+    "createNew": "或点击\"新建文档\"创建新文件",
+    "shortcut": "支持 Ctrl+S 本地保存",
+    "commitMessage": "提交信息 (可选)",
+    "saving": "保存中...",
+    "saveToGitHub": "保存到GitHub",
+    "loading": "编辑器加载中...",
+    "placeholder": "输入 # 创建标题，输入 ``` 创建代码块，或直接开始输入markdown..."
+  },
+  "toolbar": {
+    "bold": "粗体 (Ctrl+B)",
+    "italic": "斜体 (Ctrl+I)",
+    "strikethrough": "删除线",
+    "inlineCode": "行内代码",
+    "heading1": "标题 1",
+    "heading2": "标题 2",
+    "heading3": "标题 3",
+    "paragraph": "正文",
+    "bulletList": "无序列表",
+    "orderedList": "有序列表",
+    "blockquote": "引用",
+    "codeBlock": "代码块",
+    "insertTable": "插入表格",
+    "addColumnBefore": "在前面添加列",
+    "deleteColumn": "删除列",
+    "addRowBefore": "在上面添加行",
+    "deleteRow": "删除行",
+    "deleteTable": "删除表格",
+    "horizontalRule": "分隔线",
+    "hardBreak": "强制换行",
+    "undo": "撤销 (Ctrl+Z)",
+    "redo": "重做 (Ctrl+Y)"
+  },
+  "dialog": {
+    "confirm": "确定",
+    "cancel": "取消",
+    "createNewFile": "创建新文档",
+    "enterFileName": "请输入文件名",
+    "renameFile": "重命名文件",
+    "enterNewName": "请输入新的文件名",
+    "confirmDelete": "确认删除文件",
+    "deleteMessage": "确定要删除文件 \"{name}\" 吗？",
+    "deleteLocalOnly": "选择\"确定\"将删除本地文件\n选择\"取消\"将不执行任何操作",
+    "deleteRemote": "删除远端文件",
+    "deleteRemoteMessage": "是否同时删除远端文件？\n\n选择\"确定\"将删除远端和本地文件\n选择\"取消\"将只删除本地文件"
+  },
+  "toast": {
+    "savedLocal": "已保存到本地",
+    "localSaveFailed": "本地保存失败",
+    "filePulled": "文件拉取成功",
+    "pullFailed": "拉取文件失败",
+    "fileCommitted": "文件提交成功！",
+    "commitFailed": "提交文件失败",
+    "fileCreated": "文件 \"{name}\" 创建成功并已保存到本地",
+    "createFailed": "创建文件失败",
+    "fileRenamed": "文件重命名成功",
+    "renameFailed": "重命名文件失败",
+    "fileDeleted": "文件删除成功",
+    "deleteFailed": "删除文件失败",
+    "configLoaded": "配置已自动加载",
+    "refreshed": "本地文件列表已刷新"
+  },
+  "language": {
+    "select": "选择语言"
+  }
+}

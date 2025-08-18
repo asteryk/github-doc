@@ -13,9 +13,11 @@ import { TableRow } from '@tiptap/extension-table-row';
 import { TableHeader } from '@tiptap/extension-table-header';
 import { TableCell } from '@tiptap/extension-table-cell';
 import { common, createLowlight } from 'lowlight';
+import { useTranslations } from 'next-intl';
 import ConfirmDialog from "../components/ConfirmDialog";
 import InputDialog from "../components/InputDialog";
 import EditorToolbar from "../components/EditorToolbar";
+import LanguageSelector from "../components/LanguageSelector";
 import {
   documentDB,
   configDB,
@@ -83,6 +85,7 @@ const compareFileContent = (
 };
 
 export default function Editor() {
+  const t = useTranslations();
   const [config, setConfig] = useState<GitHubConfig | null>(null);
   const [files, setFiles] = useState<FileInfo[]>([]);
   const [selectedFile, setSelectedFile] = useState<FileInfo | null>(null);
@@ -109,7 +112,7 @@ export default function Editor() {
       }),
       Typography,
       Placeholder.configure({
-        placeholder: '输入 # 创建标题，输入 ``` 创建代码块，或直接开始输入markdown...',
+        placeholder: t('editor.placeholder'),
       }),
       CodeBlockLowlight.configure({
         lowlight,
@@ -911,48 +914,49 @@ export default function Editor() {
               {config.owner}/{config.repo}
             </h1>
             <p className="text-xs sm:text-sm text-gray-500">
-              文档路径: {config.path}
+              {t('nav.path')}: {config.path}
             </p>
             {hasUnsavedChanges && (
               <p className="text-xs sm:text-sm text-orange-600 mt-1">
-                ⚠️ 有未保存的更改
+                {t('nav.unsaved')}
               </p>
             )}
           </div>
           <div className="flex flex-wrap gap-2 sm:gap-3">
+            <LanguageSelector />
             <button
               onClick={refreshLocalFiles}
               disabled={isLoading}
               className="px-3 py-2 text-xs sm:text-sm bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50"
             >
-              {isLoading ? "加载中..." : "刷新列表"}
+              {isLoading ? t('nav.refreshing') : t('nav.refreshList')}
             </button>
             <button
               onClick={saveToLocal}
               disabled={!hasUnsavedChanges}
               className="px-3 py-2 text-xs sm:text-sm bg-green-600 text-white rounded-md hover:bg-green-700 disabled:opacity-50"
             >
-              <span className="hidden sm:inline">本地保存 (Ctrl+S)</span>
-              <span className="sm:hidden">本地保存</span>
+              <span className="hidden sm:inline">{t('nav.localSave')}</span>
+              <span className="sm:hidden">{t('nav.localSave').split(' ')[0]}</span>
             </button>
             <button
               onClick={pullNewFiles}
               disabled={isLoading}
               className="px-3 py-2 text-xs sm:text-sm bg-purple-600 text-white rounded-md hover:bg-purple-700 disabled:opacity-50"
             >
-              拉取新文件
+              {t('nav.pullNewFiles')}
             </button>
             <button
               onClick={createNewFile}
               className="px-3 py-2 text-xs sm:text-sm bg-orange-600 text-white rounded-md hover:bg-orange-700"
             >
-              新建文档
+              {t('nav.newDocument')}
             </button>
             <a
               href="/config"
               className="px-3 py-2 text-xs sm:text-sm bg-gray-600 text-white rounded-md hover:bg-gray-700"
             >
-              配置
+              {t('nav.config')}
             </a>
           </div>
         </div>

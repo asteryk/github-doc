@@ -1,0 +1,86 @@
+{
+  "nav": {
+    "repository": "Repository",
+    "path": "Dokumentenpfad",
+    "unsaved": "⚠️ Ungespeicherte Änderungen",
+    "refreshList": "Liste aktualisieren",
+    "refreshing": "Laden...",
+    "localSave": "Lokal speichern (Ctrl+S)",
+    "pullNewFiles": "Neue Dateien abrufen",
+    "newDocument": "Neues Dokument",
+    "config": "Konfiguration"
+  },
+  "fileList": {
+    "title": "Dokumentenliste",
+    "empty": "Keine Dokumente, klicken Sie auf \"Neue Dateien abrufen\" um welche zu erhalten",
+    "pull": "Abrufen",
+    "rename": "Umbenennen",
+    "delete": "Löschen"
+  },
+  "editor": {
+    "selectFile": "Wählen Sie ein Dokument aus, um mit der Bearbeitung zu beginnen",
+    "createNew": "oder klicken Sie auf \"Neues Dokument\", um eine neue Datei zu erstellen",
+    "shortcut": "Unterstützt Ctrl+S für lokales Speichern",
+    "commitMessage": "Commit-Nachricht (optional)",
+    "saving": "Speichern...",
+    "saveToGitHub": "Auf GitHub speichern",
+    "loading": "Editor wird geladen...",
+    "placeholder": "Geben Sie # ein, um eine Überschrift zu erstellen, ``` für einen Codeblock, oder beginnen Sie mit der Eingabe von Markdown..."
+  },
+  "toolbar": {
+    "bold": "Fett (Ctrl+B)",
+    "italic": "Kursiv (Ctrl+I)",
+    "strikethrough": "Durchgestrichen",
+    "inlineCode": "Inline-Code",
+    "heading1": "Überschrift 1",
+    "heading2": "Überschrift 2",
+    "heading3": "Überschrift 3",
+    "paragraph": "Absatz",
+    "bulletList": "Aufzählungsliste",
+    "orderedList": "Nummerierte Liste",
+    "blockquote": "Blockzitat",
+    "codeBlock": "Codeblock",
+    "insertTable": "Tabelle einfügen",
+    "addColumnBefore": "Spalte davor hinzufügen",
+    "deleteColumn": "Spalte löschen",
+    "addRowBefore": "Zeile darüber hinzufügen",
+    "deleteRow": "Zeile löschen",
+    "deleteTable": "Tabelle löschen",
+    "horizontalRule": "Horizontale Linie",
+    "hardBreak": "Harter Zeilenwechsel",
+    "undo": "Rückgängig (Ctrl+Z)",
+    "redo": "Wiederholen (Ctrl+Y)"
+  },
+  "dialog": {
+    "confirm": "Bestätigen",
+    "cancel": "Abbrechen",
+    "createNewFile": "Neues Dokument erstellen",
+    "enterFileName": "Bitte geben Sie den Dateinamen ein",
+    "renameFile": "Datei umbenennen",
+    "enterNewName": "Bitte geben Sie den neuen Dateinamen ein",
+    "confirmDelete": "Dateilöschung bestätigen",
+    "deleteMessage": "Sind Sie sicher, dass Sie die Datei \"{name}\" löschen möchten?",
+    "deleteLocalOnly": "Wählen Sie \"Bestätigen\", um die lokale Datei zu löschen\nWählen Sie \"Abbrechen\", um keine Aktion auszuführen",
+    "deleteRemote": "Remote-Datei löschen",
+    "deleteRemoteMessage": "Auch die Remote-Datei löschen?\n\nWählen Sie \"Bestätigen\", um sowohl Remote- als auch lokale Datei zu löschen\nWählen Sie \"Abbrechen\", um nur die lokale Datei zu löschen"
+  },
+  "toast": {
+    "savedLocal": "Lokal gespeichert",
+    "localSaveFailed": "Lokales Speichern fehlgeschlagen",
+    "filePulled": "Datei erfolgreich abgerufen",
+    "pullFailed": "Datei abrufen fehlgeschlagen",
+    "fileCommitted": "Datei erfolgreich committet!",
+    "commitFailed": "Datei commit fehlgeschlagen",
+    "fileCreated": "Datei \"{name}\" erfolgreich erstellt und lokal gespeichert",
+    "createFailed": "Datei erstellen fehlgeschlagen",
+    "fileRenamed": "Datei erfolgreich umbenannt",
+    "renameFailed": "Datei umbenennen fehlgeschlagen",
+    "fileDeleted": "Datei erfolgreich gelöscht",
+    "deleteFailed": "Datei löschen fehlgeschlagen",
+    "configLoaded": "Konfiguration automatisch geladen",
+    "refreshed": "Lokale Dateiliste aktualisiert"
+  },
+  "language": {
+    "select": "Sprache auswählen"
+  }
+}

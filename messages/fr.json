@@ -1,0 +1,86 @@
+{
+  "nav": {
+    "repository": "Dépôt",
+    "path": "Chemin du document",
+    "unsaved": "⚠️ Modifications non sauvegardées",
+    "refreshList": "Actualiser la liste",
+    "refreshing": "Chargement...",
+    "localSave": "Sauvegarde locale (Ctrl+S)",
+    "pullNewFiles": "Récupérer de nouveaux fichiers",
+    "newDocument": "Nouveau document",
+    "config": "Configuration"
+  },
+  "fileList": {
+    "title": "Liste des documents",
+    "empty": "Aucun document, cliquez sur \"Récupérer de nouveaux fichiers\" pour en obtenir",
+    "pull": "Récupérer",
+    "rename": "Renommer",
+    "delete": "Supprimer"
+  },
+  "editor": {
+    "selectFile": "Sélectionnez un document pour commencer l'édition",
+    "createNew": "ou cliquez sur \"Nouveau document\" pour créer un nouveau fichier",
+    "shortcut": "Prend en charge Ctrl+S pour la sauvegarde locale",
+    "commitMessage": "Message de commit (optionnel)",
+    "saving": "Sauvegarde...",
+    "saveToGitHub": "Sauvegarder sur GitHub",
+    "loading": "Chargement de l'éditeur...",
+    "placeholder": "Tapez # pour créer un titre, ``` pour créer un bloc de code, ou commencez à taper du markdown..."
+  },
+  "toolbar": {
+    "bold": "Gras (Ctrl+B)",
+    "italic": "Italique (Ctrl+I)",
+    "strikethrough": "Barré",
+    "inlineCode": "Code en ligne",
+    "heading1": "Titre 1",
+    "heading2": "Titre 2",
+    "heading3": "Titre 3",
+    "paragraph": "Paragraphe",
+    "bulletList": "Liste à puces",
+    "orderedList": "Liste numérotée",
+    "blockquote": "Citation",
+    "codeBlock": "Bloc de code",
+    "insertTable": "Insérer un tableau",
+    "addColumnBefore": "Ajouter une colonne avant",
+    "deleteColumn": "Supprimer la colonne",
+    "addRowBefore": "Ajouter une ligne avant",
+    "deleteRow": "Supprimer la ligne",
+    "deleteTable": "Supprimer le tableau",
+    "horizontalRule": "Règle horizontale",
+    "hardBreak": "Saut de ligne forcé",
+    "undo": "Annuler (Ctrl+Z)",
+    "redo": "Refaire (Ctrl+Y)"
+  },
+  "dialog": {
+    "confirm": "Confirmer",
+    "cancel": "Annuler",
+    "createNewFile": "Créer un nouveau document",
+    "enterFileName": "Veuillez entrer le nom du fichier",
+    "renameFile": "Renommer le fichier",
+    "enterNewName": "Veuillez entrer le nouveau nom du fichier",
+    "confirmDelete": "Confirmer la suppression du fichier",
+    "deleteMessage": "Êtes-vous sûr de vouloir supprimer le fichier \"{name}\" ?",
+    "deleteLocalOnly": "Sélectionnez \"Confirmer\" pour supprimer le fichier local\nSélectionnez \"Annuler\" pour n'effectuer aucune action",
+    "deleteRemote": "Supprimer le fichier distant",
+    "deleteRemoteMessage": "Supprimer également le fichier distant ?\n\nSélectionnez \"Confirmer\" pour supprimer les fichiers distant et local\nSélectionnez \"Annuler\" pour supprimer uniquement le fichier local"
+  },
+  "toast": {
+    "savedLocal": "Sauvegardé localement",
+    "localSaveFailed": "Échec de la sauvegarde locale",
+    "filePulled": "Fichier récupéré avec succès",
+    "pullFailed": "Échec de la récupération du fichier",
+    "fileCommitted": "Fichier commité avec succès !",
+    "commitFailed": "Échec du commit du fichier",
+    "fileCreated": "Fichier \"{name}\" créé avec succès et sauvegardé localement",
+    "createFailed": "Échec de la création du fichier",
+    "fileRenamed": "Fichier renommé avec succès",
+    "renameFailed": "Échec du renommage du fichier",
+    "fileDeleted": "Fichier supprimé avec succès",
+    "deleteFailed": "Échec de la suppression du fichier",
+    "configLoaded": "Configuration chargée automatiquement",
+    "refreshed": "Liste des fichiers locaux actualisée"
+  },
+  "language": {
+    "select": "Sélectionner la langue"
+  }
+}
